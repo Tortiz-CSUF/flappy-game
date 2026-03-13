@@ -10,12 +10,14 @@ var speed: float = 200.0
 
 # State Flags
 var scored: bool = false			# tracks if pipe was cleared = +1 score
-var is_active: bool = false			# bool if pipes should be moving
+var is_active: bool = true			# bool if pipes should be moving
 
 func _draw():
+	print("Drawing pipe at: ", position)
+	
 	# draws top pipe (centered)
 	var top_y = $TopPipe/TopCollision.position.y
-	draw_rect(Rect2(PIPE_WIDTH / 2, top_y - PIPE_HEIGHT / 2, PIPE_WIDTH, PIPE_HEIGHT), PIPE_COLOR)
+	draw_rect(Rect2(-PIPE_WIDTH / 2, top_y - PIPE_HEIGHT / 2, PIPE_WIDTH, PIPE_HEIGHT), PIPE_COLOR)
 	
 	# draws bottom pipe (centered)
 	var bottom_y = $BottomPipe/BottomCollision.position.y
@@ -37,4 +39,4 @@ func _process(delta: float) -> void:
 
 ## used externally when player dies to stop all pipe movement
 func stop():
-	is_active = false
+	is_active = false                               

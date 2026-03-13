@@ -9,6 +9,10 @@ const GAP_MIN_Y = 150.0				# highest the gap can exist from top
 const GAP_MAX_Y = 520.0				# lowest gap can exist from top
 const BASE_PIPE_SPEED = 200.0 		# base speed
 
+## Ground Drawing consts
+const GROUND_COLOR = Color(0.212, 0.353, 0.068, 1.0)
+const GROUND_RECT = Rect2(0, 680, 480, 40)
+
 ## Game State
 var game_started: bool = false		# true after first jump
 var game_over: bool = false			# true when player collides with pipe
@@ -24,7 +28,14 @@ func _ready() -> void:
 	
 	# hooks spawn timer timeout signal to spawn func
 	$PipeSpawnTimer.timeout.connect(_on_pipe_spawn_timer_timeout)
-
+	
+	# Display Score
+	$ScoreLabel.text = "0"
+	
+func _draw():
+	# draws ground 
+	draw_rect(GROUND_RECT, GROUND_COLOR)
+	
 
 func start_game():
 	# starts from first jump and begins pipe spawns
@@ -33,6 +44,8 @@ func start_game():
 	
 	
 func _on_pipe_spawn_timer_timeout():
+	print("Pipe Spawning...")
+	
 	# creates new pipe pair with random heights into scene
 	var pipe = PipePairScene.instantiate()
 	
