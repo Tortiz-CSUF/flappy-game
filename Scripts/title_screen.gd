@@ -1,15 +1,15 @@
 extends Node2D
 
 ## Sky Draw vals
-const SKY_TOP_CPLOR = Color(0.4, 0.7, 1.0)
+const SKY_TOP_CPLOR = Color(0.7, 0.9, 1.0)
 const SKY_BOTTOM_COLOR = Color(0.7, 0.9, 1.0)
 
 ## Cloud Settings
 const CLOUD_MIN_Y = 50.0 
 const CLOUD_MAX_Y = 600.0
 const CLOUD_SPEED = 60.0
-const CLOUD_WIDTH = 80.0
-const CLOUD_HEIGHT = 30.0
+const CLOUD_WIDTH = 100.0
+const CLOUD_HEIGHT = 60.0
 const CLOUD_POINTS = 24
 
 ## Player Preview
@@ -18,7 +18,7 @@ const OVAL_HEIGHT = 34.0
 const OVAL_POINTS = 32
 
 ## Coin Icon
-const COIN_ICON_RADIUS = 10.0
+const COIN_ICON_RADIUS = 20.0
 const COIN_ICON_COLOR = Color.GOLD
 const COIN_ICON_POINTS = 16
 
@@ -96,19 +96,14 @@ func _draw():
 	
 func _process(delta: float) -> void:
 	# moves all clouds toward left
-	for i in range(clouds.size()):
+	for i in range(clouds.size() -1, -1, -1):
 		clouds[i].x -= CLOUD_SPEED * delta
+		if clouds[i].x < -CLOUD_WIDTH:
+			clouds.remove_at(i)
+			
+	queue_redraw()
 		
-		#destroy clouds when out of gam view
-		var new_clouds: Array = []
-		for cloud_pos in clouds:
-			if cloud_pos.x > -CLOUD_WIDTH:
-				new_clouds.append(cloud_pos)
-				
-		clouds = new_clouds
 		
-		queue_redraw()
-	
 	
 func _on_cloud_timer_timeout():
 	# spawn new clouds
@@ -139,7 +134,7 @@ func _on_jump_down():
 	
 
 func _on_jump_up():
-	GameData.jump_height = min(SETTING_MIN, GameData.jump_height + SETTING_STEP)
+	GameData.jump_height = min(SETTING_MAX, GameData.jump_height + SETTING_STEP)
 	update_settings_labels()
 				
 		

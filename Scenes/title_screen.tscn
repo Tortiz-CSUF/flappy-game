@@ -28,7 +28,7 @@ text = "High Score: 0"
 horizontal_alignment = 1
 
 [node name="CoinIcon" type="Node2D" parent="." unique_id=186887460]
-position = Vector2(205, 162)
+position = Vector2(218, 165)
 
 [node name="CoinCountLabel" type="Label" parent="." unique_id=647010402]
 offset_left = 220.0

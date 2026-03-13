@@ -2,7 +2,7 @@ extends Node2D
 
 ## Preload Paths
 const PipePairScene = preload("res://Scenes/pipe_pair.tscn")
-const CoinScene = preload("res://coin.tscn")
+const CoinScene = preload("res://Scenes/coin.tscn")
 
 ## Pipe Spawn Settings
 const PIPE_SPAWN_X = 520.0 			# Spawn outside game view (right)
