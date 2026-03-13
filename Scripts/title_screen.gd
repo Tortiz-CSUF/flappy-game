@@ -32,9 +32,68 @@ var clouds: Array = []
 
 
 func _ready() -> void:
-	pass # Replace with function body.
-
-
+	# shows saved high score and coin count
+	$HighScoreLabel.text = "High Score: " + str(GameData.high_score)
+	$CoinCountLabel.text = str(GameData.coins)
+	
+	# shows current settings vals
+	update_settings_labels()
+	
+	# connects cloud spawn timer and settings buttons
+	$CloudTimer.timeout.connect(_on_cloud_timer_timeout)
+	$StartButton.pressed.connect(_on_start_pressed)
+	$GravityDownButton.pressed.connect(_on_gravity_down)
+	$GravityUpButton.pressed.connect(_on_gravity_up)
+	$JumpDownButton.pressed.connect(_on_jump_down)
+	$JumpUpButton.pressed.connect(_on_jump_up)
+	$SpeedDownButton.pressed.connect(_on_speed_down)
+	$SpeedUpButton.pressed.connect(_on_speed_up)
+	$ColorDownButton.pressed.connect(_on_color_down)
+	$ColorUpButton.pressed.connect(_on_color_up)
+	
+	# spawn initial clouds at load
+	for i in range(5):
+		clouds.append(Vector2(randf_range(0, 480), randf_range(CLOUD_MIN_Y, CLOUD_MAX_Y)))
+	
+func _draw():
+	# draw sky
+	draw_rect(Rect2(0, 0, 480, 360), SKY_TOP_CPLOR)
+	draw_rect(Rect2(0, 360, 480, 360), SKY_BOTTOM_COLOR)
+	
+	# draw clouds
+	for cloud_pos in clouds:
+		var points = PackedVector2Array()
+		for i in range(CLOUD_POINTS):
+			var angle = i * TAU / CLOUD_POINTS
+			var x = cloud_pos.x + cos(angle) * CLOUD_WIDTH / 2.0
+			var y = cloud_pos.y + sin(angle) * CLOUD_HEIGHT / 2.0
+			points.append(Vector2(x, y))
+			
+		draw_colored_polygon(points, Color.WHITE)
+		
+	# draw coin icon
+	var icon_pos = $CoinIcon.position
+	var coin_points = PackedVector2Array()
+	for i in range(COIN_ICON_POINTS):
+		var angle = i * TAU / COIN_ICON_POINTS
+		var x = icon_pos.x + cos(angle) * COIN_ICON_RADIUS / 2.0
+		var y = icon_pos.y + sin(angle) * COIN_ICON_RADIUS / 2.0
+		coin_points.append(Vector2(x, y))
+		
+	draw_colored_polygon(coin_points, COIN_ICON_COLOR)
+	
+	# Draw player preview
+	var preview_pos = $PlayerPreview.position
+	var oval_points = PackedVector2Array()
+	for i in range(OVAL_POINTS):
+		var angle = i * TAU / OVAL_POINTS
+		var x = preview_pos.x + cos(angle) * OVAL_WIDTH / 2.0
+		var y = preview_pos.y + sin(angle) * OVAL_HEIGHT / 2.0
+		oval_points.append(Vector2(x, y))
+		
+	draw_colored_polygon(oval_points, GameData.get_player_color())
+		
+	
 func _process(delta: float) -> void:
 	# moves all clouds toward left
 	for i in range(clouds.size()):
