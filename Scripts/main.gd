@@ -2,12 +2,24 @@ extends Node2D
 
 ## Preload Paths
 const PipePairScene = preload("res://Scenes/pipe_pair.tscn")
+const CoinScene = preload("res://coin.tscn")
 
 ## Pipe Spawn Settings
 const PIPE_SPAWN_X = 520.0 			# Spawn outside game view (right)
 const GAP_MIN_Y = 150.0				# highest the gap can exist from top
 const GAP_MAX_Y = 520.0				# lowest gap can exist from top
 const BASE_PIPE_SPEED = 200.0 		# base speed
+
+## Coin Spawn
+const COIN_MIN_X = 300.0
+const COIN_MAX_X = 460.0 
+const COIN_MIN_Y = 50.0 
+const COIN_MAX_Y = 650.0
+
+## Coin Icon Drawing
+const COIN_ICON_RADIUS = 10.0
+const COIN_ICON_COLOR = Color.GOLD
+const COIN_ICON_POINTS = 16
 
 ## Ground Drawing consts
 const GROUND_COLOR = Color(0.212, 0.353, 0.068, 1.0)
@@ -26,21 +38,39 @@ func _ready() -> void:
 	# determine pipe speed from game data settings and base values
 	pipe_speed = BASE_PIPE_SPEED * GameData.pipe_speed
 	
-	# hooks spawn timer timeout signal to spawn func
+	# hooks timers timeout signal to spawn func
 	$PipeSpawnTimer.timeout.connect(_on_pipe_spawn_timer_timeout)
+	$CoinSpawnTimer.timeout.connect(_on_coin_spawn_timer_timeout)
+	
 	
 	# Display Score
 	$ScoreLabel.text = "0"
+	
+	# Displays collected coin count
+	$CoinCountLabel.text = str(GameData.coins)
 	
 func _draw():
 	# draws ground 
 	draw_rect(GROUND_RECT, GROUND_COLOR)
 	
+	# draws icon next to coin count label
+	var icon_pos = $CoinIcon.position
+	var points = PackedVector2Array()
+	
+	for i in range(COIN_ICON_POINTS):
+		var angle = i * TAU / COIN_ICON_POINTS
+		var x = icon_pos.x + cos(angle) * COIN_ICON_RADIUS
+		var y = icon_pos.y + sin(angle) * COIN_ICON_RADIUS
+		points.append(Vector2(x, y))
+	
+	draw_colored_polygon(points, COIN_ICON_COLOR)
+	
 
 func start_game():
-	# starts from first jump and begins pipe spawns
+	# starts from first jump and begins pipe spawns and coins spawns
 	game_started = true
 	$PipeSpawnTimer.start()
+	$CoinSpawnTimer.start()
 	
 	
 func _on_pipe_spawn_timer_timeout():
@@ -60,6 +90,13 @@ func _on_pipe_spawn_timer_timeout():
 	pipe.get_node("ScoreZone").body_entered.connect(_on_score_zone_entered.bind(pipe))
 	
 	add_child(pipe)
+	
+func _on_coin_spawn_timer_timeout():
+	# spawn coins at random pos
+	var coin = CoinScene.instantiate()
+	coin.position = Vector2(randf_range(COIN_MIN_X, COIN_MAX_X),
+							randf_range(COIN_MIN_Y, COIN_MAX_Y))
+	add_child(coin)
 		
 		
 func _on_score_zone_entered(body, pipe):
@@ -73,6 +110,9 @@ func _input(event):
 	# allow if game is active
 	if event.is_action_pressed("jump") and not game_started and not game_over:
 		start_game()
-		
+
+func _process(_delta):
+	# updates coin count label
+	$CoinCountLabel.text = str(GameData.coins)
 		
 		
