@@ -1,7 +1,7 @@
 extends Node
 
 # Constant vars
-const SAVE_PATH = "user://save_data.cfg"				# File path for player save data
+const SAVE_PATH = "user://save_data.cfg"		# File path for player save data
 
 # State vars
 var high_score: int = 0
@@ -22,8 +22,6 @@ var player_colors: Array = [
 	Color.PURPLE,
 	Color.HOT_PINK
 ]
-
-
 
 func _ready() -> void:
 	load_data()
