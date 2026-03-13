@@ -1,0 +1,134 @@
+[gd_scene format=3 uid="uid://cy0hgrncsc5tq"]
+
+[node name="TitleScreen" type="Node2D" unique_id=653529870]
+
+[node name="CloudTimer" type="Timer" parent="." unique_id=6556636]
+wait_time = 2.0
+autostart = true
+
+[node name="TitleLabel" type="Label" parent="." unique_id=211123441]
+offset_top = 30.0
+offset_right = 480.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Flappy Game"
+horizontal_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="." unique_id=1349278006]
+offset_top = 110.0
+offset_right = 480.0
+offset_bottom = 145.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 22
+text = "High Score: 0"
+horizontal_alignment = 1
+
+[node name="CoinIcon" type="Node2D" parent="." unique_id=186887460]
+position = Vector2(205, 162)
+
+[node name="CoinCountLabel" type="Label" parent="." unique_id=647010402]
+offset_left = 220.0
+offset_top = 148.0
+offset_right = 300.0
+offset_bottom = 179.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 22
+text = "0"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="." unique_id=641871918]
+offset_left = 165.0
+offset_top = 630.0
+offset_right = 315.0
+offset_bottom = 680.0
+text = "Start"
+
+[node name="GravityLabel" type="Label" parent="." unique_id=2065960664]
+offset_left = 140.0
+offset_top = 250.0
+offset_right = 340.0
+offset_bottom = 281.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Gravity: 1.0"
+horizontal_alignment = 1
+
+[node name="GravityDownButton" type="Button" parent="." unique_id=747154987]
+offset_left = 100.0
+offset_top = 248.0
+offset_right = 135.0
+offset_bottom = 283.0
+text = "<"
+
+[node name="GravityUpButton" type="Button" parent="." unique_id=1564684488]
+offset_left = 345.0
+offset_top = 248.0
+offset_right = 380.0
+offset_bottom = 283.0
+text = ">"
+
+[node name="JumpLabel" type="Label" parent="." unique_id=365638194]
+offset_left = 140.0
+offset_top = 300.0
+offset_right = 340.0
+offset_bottom = 331.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Jump: 1.0"
+horizontal_alignment = 1
+
+[node name="JumpDownButton" type="Button" parent="." unique_id=1191261232]
+offset_left = 100.0
+offset_top = 298.0
+offset_right = 135.0
+offset_bottom = 333.0
+text = "<"
+
+[node name="JumpUpButton" type="Button" parent="." unique_id=224341924]
+offset_left = 345.0
+offset_top = 298.0
+offset_right = 380.0
+offset_bottom = 333.0
+text = ">"
+
+[node name="SpeedLabel" type="Label" parent="." unique_id=249716158]
+offset_left = 140.0
+offset_top = 350.0
+offset_right = 340.0
+offset_bottom = 380.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Speed: 1.0"
+horizontal_alignment = 1
+
+[node name="SpeedDownButton" type="Button" parent="." unique_id=121741232]
+offset_left = 100.0
+offset_top = 348.0
+offset_right = 135.0
+offset_bottom = 383.0
+text = "<"
+
+[node name="SpeedUpButton" type="Button" parent="." unique_id=2139486329]
+offset_left = 345.0
+offset_top = 348.0
+offset_right = 380.0
+offset_bottom = 383.0
+text = ">"
+
+[node name="ColorDownButton" type="Button" parent="." unique_id=1102639032]
+offset_left = 140.0
+offset_top = 440.0
+offset_right = 175.0
+offset_bottom = 475.0
+text = "<"
+
+[node name="PlayerPreview" type="Node2D" parent="." unique_id=1010729323]
+position = Vector2(240, 458)
+
+[node name="ColorUpButton" type="Button" parent="." unique_id=1958242161]
+offset_left = 305.0
+offset_top = 440.0
+offset_right = 340.0
+offset_bottom = 475.0
+text = ">"
