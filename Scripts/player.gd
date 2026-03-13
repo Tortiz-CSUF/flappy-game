@@ -21,6 +21,7 @@ var jump_speed: float
 
 # State flags
 var is_dead: bool = false
+var game_active: bool = false		# true when player first jumps
 
 func _ready():
 	# apply players settings at main menu runtime
@@ -42,7 +43,7 @@ func _draw():
 
 func _physics_process(delta: float) -> void:
 	# if player dead: stop movement
-	if is_dead:
+	if is_dead or not game_active:
 		return
 		
 	# apply gravity. velocity increases to create acceleration.
@@ -64,6 +65,9 @@ func _input(event):
 		jump()	
 	
 func jump():	
+	# activates player on first jump
+	game_active = true
+	
 	# sets up velo and tilt's the player character upward
 	velocity.y = jump_speed
 	rotation = JUMP_ROTATION

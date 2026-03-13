@@ -7,6 +7,7 @@ const COIN_POINTS = 24
 
 ## Coin Move Vals
 var speed: float = 200.0
+var is_active: bool = true
 
 
 func _ready() -> void:
@@ -28,6 +29,10 @@ func _draw():
 	
 
 func _process(delta):
+	# stop movement if game over
+	if not is_active:
+		return
+			
 	# scroll left
 	position.x -= speed * delta
 	

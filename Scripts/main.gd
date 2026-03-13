@@ -75,6 +75,7 @@ func _draw():
 func start_game():
 	# starts from first jump and begins pipe spawns and coins spawns
 	game_started = true
+	$Player.game_active = true
 	$PipeSpawnTimer.start()
 	$CoinSpawnTimer.start()
 	
@@ -99,7 +100,9 @@ func _on_pipe_spawn_timer_timeout():
 	# hook in score zone to detect when player passes through a score zone
 	pipe.get_node("ScoreZone").body_entered.connect(_on_score_zone_entered.bind(pipe))
 	
+	pipe.z_index = -1
 	add_child(pipe)
+
 	
 func _on_coin_spawn_timer_timeout():
 	# spawn coins at random pos
@@ -118,7 +121,10 @@ func _on_coin_spawn_timer_timeout():
 	
 	# match pipe move speed
 	coin.speed = pipe_speed
+	
+	coin.z_index = 0
 	add_child(coin)
+	
 		
 		
 func _on_score_zone_entered(body, pipe):
@@ -133,7 +139,16 @@ func _input(event):
 	if event.is_action_pressed("jump") and not game_started and not game_over:
 		start_game()
 
+
 func _process(_delta):
+	# checks player collision with pipe or ground
+	if not game_over and game_started:
+		for i in range($Player.get_slide_collision_count()):
+			var collision = $Player.get_slide_collision(i)
+			if collision:
+				trigger_game_over()
+				return
+	
 	# updates coin count label
 	$CoinCountLabel.text = str(GameData.coins)
 		
@@ -150,6 +165,11 @@ func trigger_game_over():
 	for child in get_children():
 		if child.is_in_group("pipes"):
 			child.stop()
+			
+	# freeze all instantiated coins
+	for child in get_children():
+		if child is Area2D:
+			child.is_active = false
 	
 	# disable player
 	$Player.is_dead = true
@@ -164,5 +184,12 @@ func trigger_game_over():
 	$GameOverPanel.visible = true
 		
 	
-	
-		
+func _on_retry_pressed():
+	#reloads main scene (reset)
+	get_tree().reload_current_scene()
+
+
+func _on_quit_pressed():
+	# exits game application 
+	get_tree().quit()
+			
