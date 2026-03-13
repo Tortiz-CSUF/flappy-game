@@ -1,5 +1,8 @@
 extends Area2D
 
+## SFX Signals
+signal collected
+
 ## Coins Drawing consts
 const COIN_RADIUS = 12.0 
 const COIN_COLOR = Color.GOLD
@@ -51,5 +54,7 @@ func _on_body_entered(body):
 		GameData.save_data()
 		#remove coins from scene
 		
+		# emit play sfx coin collected
+		collected.emit()
 		
 		queue_free()

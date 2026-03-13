@@ -1,6 +1,10 @@
 extends CharacterBody2D
 
 
+## SFX Signals
+signal jumped
+
+
 ## Physics const vars
 const BASE_GRAVITY = 900.0			# gravity 
 const BASE_JUMP_SPEED = -350.0		# Upward jump
@@ -74,5 +78,7 @@ func jump():
 	
 	# case: color needs update -> redraw shape
 	queue_redraw()
+	
+	jumped.emit()
 	
 	

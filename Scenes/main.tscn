@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dytg368mwdtiv" path="res://Scripts/main.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://dcmjnwwbr263i" path="res://Scripts/player.gd" id="1_jjgbg"]
+[ext_resource type="AudioStream" uid="uid://cr3ny2rc4d6nu" path="res://Audio/jump.wav" id="3_21xkr"]
+[ext_resource type="AudioStream" uid="uid://c5176kyb3hp4w" path="res://Audio/score.wav" id="4_6bp64"]
+[ext_resource type="AudioStream" uid="uid://b13mf7k1whgt4" path="res://Audio/fail.wav" id="5_344ge"]
+[ext_resource type="AudioStream" uid="uid://bivn24khnwwbk" path="res://Audio/coin.wav" id="6_ynf5e"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bo1nx"]
 radius = 17.0
@@ -111,3 +115,15 @@ offset_top = 250.0
 offset_right = 200.0
 offset_bottom = 300.0
 text = "Quit"
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=1420221330]
+stream = ExtResource("3_21xkr")
+
+[node name="ScoreSound" type="AudioStreamPlayer" parent="." unique_id=1355977128]
+stream = ExtResource("4_6bp64")
+
+[node name="FailSound" type="AudioStreamPlayer" parent="." unique_id=773600609]
+stream = ExtResource("5_344ge")
+
+[node name="CoinSound" type="AudioStreamPlayer" parent="." unique_id=1600353784]
+stream = ExtResource("6_ynf5e")

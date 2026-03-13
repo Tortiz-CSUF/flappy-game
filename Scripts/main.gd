@@ -51,9 +51,11 @@ func _ready() -> void:
 	
 	# Show press space start at new game 
 	$PressSpaceLabel.visible = true
-	# hide game over panel until player fail state
+	
+	# hide game over panel until player fail state and sfx triggers
 	$GameOverPanel/RetryButton.pressed.connect(_on_retry_pressed)
 	$GameOverPanel/QuitButton.pressed.connect(_on_quit_pressed)
+	$Player.jumped.connect(_on_player_jumped)
 	
 func _draw():
 	# draws ground 
@@ -100,7 +102,7 @@ func _on_pipe_spawn_timer_timeout():
 	# hook in score zone to detect when player passes through a score zone
 	pipe.get_node("ScoreZone").body_entered.connect(_on_score_zone_entered.bind(pipe))
 	
-	pipe.z_index = -1
+	pipe.z_index = -2
 	add_child(pipe)
 
 	
@@ -122,8 +124,11 @@ func _on_coin_spawn_timer_timeout():
 	# match pipe move speed
 	coin.speed = pipe_speed
 	
-	coin.z_index = 0
+	coin.z_index = -1
 	add_child(coin)
+	
+	# coin collected signal connect to play sound
+	coin.collected.connect(_on_coin_collected)
 	
 		
 		
@@ -132,6 +137,8 @@ func _on_score_zone_entered(body, pipe):
 	if body == $Player and not pipe.scored:
 		pipe.scored = true
 		score += 1
+		
+	play_sfx($ScoreSound)
 	
 	
 func _input(event):
@@ -156,6 +163,7 @@ func _process(_delta):
 func trigger_game_over():
 	# trigger game over
 	game_over = true
+	play_sfx($FailSound)
 	
 	# stops pipe and coin spawns
 	$PipeSpawnTimer.stop()
@@ -185,11 +193,24 @@ func trigger_game_over():
 		
 	
 func _on_retry_pressed():
+	play_sfx($ScoreSound)
 	#reloads main scene (reset)
 	get_tree().reload_current_scene()
 
 
 func _on_quit_pressed():
+	play_sfx($ScoreSound)
 	# exits game application 
 	get_tree().quit()
 			
+			
+func play_sfx(player: AudioStreamPlayer):
+	player.pitch_scale = randf_range(0.9, 1.1)
+	player.play()
+
+
+func _on_player_jumped():
+	play_sfx($JumpSound)
+	
+func _on_coin_collected():
+	play_sfx($CoinSound)
