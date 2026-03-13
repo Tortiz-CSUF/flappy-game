@@ -49,6 +49,12 @@ func _ready() -> void:
 	# Displays collected coin count
 	$CoinCountLabel.text = str(GameData.coins)
 	
+	# Show press space start at new game 
+	$PressSpaceLabel.visible = true
+	# hide game over panel until player fail state
+	$GameOverPanel/RetryButton.pressed.connect(_on_retry_pressed)
+	$GameOverPanel/QuitButton.pressed.connect(_on_quit_pressed)
+	
 func _draw():
 	# draws ground 
 	draw_rect(GROUND_RECT, GROUND_COLOR)
@@ -71,6 +77,9 @@ func start_game():
 	game_started = true
 	$PipeSpawnTimer.start()
 	$CoinSpawnTimer.start()
+	
+	# Hide space prompt when game start initiated
+	$PressSpaceLabel.visible = false
 	
 	
 func _on_pipe_spawn_timer_timeout():
@@ -128,4 +137,32 @@ func _process(_delta):
 	# updates coin count label
 	$CoinCountLabel.text = str(GameData.coins)
 		
+
+func trigger_game_over():
+	# trigger game over
+	game_over = true
+	
+	# stops pipe and coin spawns
+	$PipeSpawnTimer.stop()
+	$CoinSpawnTimer.stop()
+	
+	# freeze all instantiated pipes
+	for child in get_children():
+		if child.is_in_group("pipes"):
+			child.stop()
+	
+	# disable player
+	$Player.is_dead = true
+	
+	# update high score if beaten
+	if score > GameData.high_score:
+		GameData.high_score = score
+		GameData.save_data()
+		
+	# show game over panel 
+	$GameOverPanel/FinalScoreLabel.text = "Score: " + str(score)
+	$GameOverPanel.visible = true
+		
+	
+	
 		
