@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://cy0hgrncsc5tq"]
 
+[ext_resource type="Script" uid="uid://0w8mi6bitgth" path="res://Scripts/title_screen.gd" id="1_klylv"]
+
 [node name="TitleScreen" type="Node2D" unique_id=653529870]
+script = ExtResource("1_klylv")
 
 [node name="CloudTimer" type="Timer" parent="." unique_id=6556636]
 wait_time = 2.0
