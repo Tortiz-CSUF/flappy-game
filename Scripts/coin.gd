@@ -5,6 +5,9 @@ const COIN_RADIUS = 12.0
 const COIN_COLOR = Color.GOLD
 const COIN_POINTS = 24
 
+## Coin Move Vals
+var speed: float = 200.0
+
 
 func _ready() -> void:
 	# hooks in from main
@@ -23,7 +26,16 @@ func _draw():
 	
 	draw_colored_polygon(points, COIN_COLOR)
 	
+
+func _process(delta):
+	# scroll left
+	position.x -= speed * delta
 	
+	# remove coin when out of game view
+	if position.x < -50:
+		queue_free()
+		
+		
 func _on_body_entered(body):
 	# reacts to player
 	if body.name == "Player":

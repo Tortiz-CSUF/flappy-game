@@ -11,10 +11,10 @@ const GAP_MAX_Y = 520.0				# lowest gap can exist from top
 const BASE_PIPE_SPEED = 200.0 		# base speed
 
 ## Coin Spawn
-const COIN_MIN_X = 300.0
-const COIN_MAX_X = 460.0 
-const COIN_MIN_Y = 50.0 
+const COIN_SPAWN_X = 520.0 
+const COIN_MIN_Y = 80.0
 const COIN_MAX_Y = 650.0
+
 
 ## Coin Icon Drawing
 const COIN_ICON_RADIUS = 10.0
@@ -78,6 +78,7 @@ func _on_pipe_spawn_timer_timeout():
 	
 	# creates new pipe pair with random heights into scene
 	var pipe = PipePairScene.instantiate()
+	pipe.add_to_group("pipes")
 	
 	# Random Y position for gap 
 	var gap_y = randf_range(GAP_MIN_Y, GAP_MAX_Y)
@@ -94,8 +95,20 @@ func _on_pipe_spawn_timer_timeout():
 func _on_coin_spawn_timer_timeout():
 	# spawn coins at random pos
 	var coin = CoinScene.instantiate()
-	coin.position = Vector2(randf_range(COIN_MIN_X, COIN_MAX_X),
-							randf_range(COIN_MIN_Y, COIN_MAX_Y))
+	var coin_y = randf_range(COIN_MIN_Y, COIN_MAX_Y)
+	var coin_x = COIN_SPAWN_X
+	
+	# checks all existing pipes for proper positioning
+	for child in get_children():
+		if child.is_in_group("pipes"):
+			var distance_x = abs(coin_x - child.position.x)
+			if distance_x < 100:
+				coin_y = child.position.y + randf_range(-50, 50)
+			
+	coin.position = Vector2(coin_x, coin_y)	
+	
+	# match pipe move speed
+	coin.speed = pipe_speed
 	add_child(coin)
 		
 		
