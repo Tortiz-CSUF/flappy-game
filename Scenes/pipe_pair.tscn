@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://ck6w5y3yigptj"]
+
+[ext_resource type="Script" uid="uid://cnyogvf4nj1v8" path="res://Scripts/pipe_pair.gd" id="1_gnugl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j1twy"]
+size = Vector2(80, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gnugl"]
+size = Vector2(80, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5igu"]
+size = Vector2(10, 160)
+
+[node name="PipePair" type="Node2D" unique_id=1379746541]
+script = ExtResource("1_gnugl")
+
+[node name="TopPipe" type="StaticBody2D" parent="." unique_id=181336372]
+collision_layer = 2
+collision_mask = 0
+
+[node name="TopCollision" type="CollisionShape2D" parent="TopPipe" unique_id=202258227]
+position = Vector2(0, -440)
+shape = SubResource("RectangleShape2D_j1twy")
+
+[node name="BottomPipe" type="StaticBody2D" parent="." unique_id=1226445211]
+collision_layer = 2
+collision_mask = 0
+
+[node name="BottomCollision" type="CollisionShape2D" parent="BottomPipe" unique_id=1042439477]
+position = Vector2(0, 440)
+shape = SubResource("RectangleShape2D_gnugl")
+
+[node name="ScoreZone" type="StaticBody2D" parent="." unique_id=1747884190]
+collision_layer = 0
+
+[node name="ScoreCollision" type="CollisionShape2D" parent="ScoreZone" unique_id=1412430294]
+shape = SubResource("RectangleShape2D_d5igu")

@@ -65,7 +65,7 @@ func _input(event):
 	
 func jump():	
 	# sets up velo and tilt's the player character upward
-	velocity.y = jump()
+	velocity.y = jump_speed
 	rotation = JUMP_ROTATION
 	
 	# case: color needs update -> redraw shape

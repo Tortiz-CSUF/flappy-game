@@ -10,6 +10,7 @@ height = 50.0
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1808851775]
 position = Vector2(120, 360)
+collision_mask = 2
 script = ExtResource("1_jjgbg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1313497273]
